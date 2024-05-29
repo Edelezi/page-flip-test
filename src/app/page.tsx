@@ -36,6 +36,7 @@ const pages = [
 export default function Home() {
     const [flipProgress, setFlipProgress] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
+    const [scaled, setScaled] = useState(false);
     
     const [showType, setShowType] = useState<'flip1' | 'flip2' | 'both'>('flip1');
 
@@ -68,16 +69,19 @@ export default function Home() {
 
     return (
         <div className="h-full">
-            <div className="flex flex-col gap-2 fixed top-4 left-4 z-50">
-                <button className="h-10 flex items-center justify-center rounded-lg bg-white border border-black px-3 min-w-16" onClick={() => setShowType('flip1')}>Flip 1</button>
-                <button className="h-10 flex items-center justify-center rounded-lg bg-white border border-black px-3 min-w-16" onClick={() => setShowType('flip2')}>Flip 2</button>
-                <button className="h-10 flex items-center justify-center rounded-lg bg-white border border-black px-3 min-w-16" onClick={() => setShowType('both')}>Both</button>
+            <div className="flex gap-2 fixed top-4 left-4 z-50">
+                <div className="flex flex-col gap-2">
+                    <button className="h-10 flex items-center justify-center rounded-lg bg-white border border-black px-3 min-w-16" onClick={() => setShowType('flip1')}>Flip 1</button>
+                    <button className="h-10 flex items-center justify-center rounded-lg bg-white border border-black px-3 min-w-16" onClick={() => setShowType('flip2')}>Flip 2</button>
+                    <button className="h-10 flex items-center justify-center rounded-lg bg-white border border-black px-3 min-w-16" onClick={() => setShowType('both')}>Both</button>
+                </div>
+                <button className="h-10 flex items-center justify-center rounded-lg bg-white border border-black px-3 min-w-16" onClick={() => setScaled(!scaled)}>0.75 scale</button>
             </div>
             {/*<PageFlip3 progress={flipProgress} firstPage={currentPage > 0 ? pages[currentPage - 1] : undefined}*/}
             {/*           lastPage={pages[currentPage + 2]} frontPageUrl={pages[currentPage]}*/}
             {/*           backPageUrl={pages[currentPage + 1]}/>*/}
             {/*<PageFlip />*/}
-            <div className="fixed w-full h-full flex flex-col items-center justify-center gap-12 mt-10">
+            <div className={`fixed w-full h-full flex flex-col items-center justify-center gap-12 mt-10 ${scaled && 'transform scale-75'}`}>
                 {(showType === 'flip1' || showType === 'both') && <PageFlip progress={flipProgress} firstPage={firstPage} lastPage={lastPage} flipFrontPageUrl={frontPageUrl}
                                                                             flipBackPageUrl={backPageUrl}/>}
                 {(showType === 'flip2' || showType === 'both') && <PageFlip3 progress={flipProgress} firstPage={firstPage} lastPage={lastPage} frontPageUrl={frontPageUrl}
